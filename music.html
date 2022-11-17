@@ -1,0 +1,264 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muxic</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
+    <!-- <script src="https://use.fontawesome.com/30d19d53b1.js"></script> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            height: 100vh;
+            background-color: rgb(123, 226, 255);
+        }
+        .container{
+            width: 450px;
+            height: 650px;
+            background-color: rgb(123, 226, 255);
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow:  20px 20px 60px #69c0d9, 
+             -20px -20px 60px #8dffff;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .desc{
+            width: 100%;
+            height: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+        }
+        .desc h1,
+        .desc small{
+            margin: 0;
+            font-family: "Poppins";
+        }
+        .contents{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            height: 65%;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background-color: rgb(144, 144, 144);
+        }
+        .contents .img{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: brightness(50%)
+        }
+        .contents .disc{
+            position: absolute;
+            width: 350px;
+            opacity: .5;
+        }
+        .contents .playlist{
+            width: 100%;
+            height: 0%;
+            background-color: rgba(32, 32, 32, 1);
+            position: absolute;
+            bottom: 0;
+            cursor: pointer;
+            transition: 1s ease;
+            color: rgb(135, 135, 135);
+            text-align: center;
+        }
+        .playlist::before{
+            content: '';
+            position: absolute;
+            background-color: rgba(32, 32, 32, 1);
+            width: 35px;
+            height: 30px;
+            top: 5px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        .close-playlist{
+            padding: 10px;
+        }
+        .control{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 20%;
+            position: relative;
+        }
+        button{
+            background-color: rgb(123, 226, 255);
+            box-shadow:  10px 10px 15px #69c0d9, 
+                         -10px -10px 15px #8dffff;
+            border: none;
+            outline: none;
+            border-radius: 100%;
+            position: relative;
+            margin: 5px;
+        }
+        button:active{
+            box-shadow:  inset 10px 10px 60px #69c0d9, 
+                         inset -10px -10px 60px #8dffff;
+        }
+        button.disabled{
+            display: none;
+        }
+        .play button,
+        .pause button{
+            width: 80px;
+            height: 80px;
+        }
+        .prev button,
+        .next button{
+            width: 50px;
+            height: 50px;
+        }
+        .fas{
+            color: white;
+        }
+        .fa-caret-right{
+            font-size: 50px;
+        }
+        .fa-pause{
+            font-size: 30px;
+        }
+        .fa-step-forward,
+        .fa-step-backward{
+            font-size: 25px;
+        }
+        .fa-times{
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="desc">
+            <h1 id="song"></h1>
+            <small id="singer"></small>
+        </div>
+        <div class="contents">
+            <img class="img">
+            <img src="Assets\Image\disc.png" class="disc">
+            <div class="playlist">
+                <div class="close-playlist">
+                    <i class="fas fa-times"></i>
+                </div>
+                <h1>Top Song</h1>
+            </div>
+        </div>
+        <div class="control">
+            <div class="prev">
+                <button type="button" >
+                    <i class="fas fa-step-backward"></i>
+                </button>
+            </div>
+            <div class="play ">
+                <button type="button" class="btn-play">
+                    <i class="fas fa-caret-right"></i>
+                </button>
+            </div>
+            <div class="pause" >
+                <button type="button" class="btn-pause disabled">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            <div class="next">
+                <button type="button" >
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //JSON ARRAY OBJECT
+        const playlist = [
+            {
+                "title" : "Dance Monkey",
+                "singer" : "Tones and I",
+                "source" : "Assets/Audio/DanceMonkey.mp3",
+                "bgImage" : "Assets/Image/bg.jpg"
+            }
+        ]
+
+        //AUDIO CONTROLLER CLASS
+        class AudioController {
+            constructor(playlist){
+                this.musicSource = new Audio(playlist.source);
+                this.title = playlist.title;
+                this.singer = playlist.singer;
+                this.image = playlist.bgImage;
+            }
+            play(){
+                this.musicSource.play();
+
+                musicTitle.innerHTML = this.title;
+                musicSinger.innerHTML = this.singer;
+                musicImage.src = this.image;
+            }
+            pause(){
+                this.musicSource.pause();
+            }
+            next(){
+
+            }
+            previous(){
+
+            }
+        }
+
+
+        let btnPlay = document.querySelector('.btn-play');
+        let btnPause = document.querySelector('.btn-pause');
+        let musicTitle = document.querySelector('#song');
+        let musicSinger = document.querySelector('#singer');
+        let musicImage = document.querySelector('.img');
+        let musicList = document.querySelector('.playlist');
+
+        btnPlay.addEventListener('click', playMusic);
+        btnPause.addEventListener('click', pauseMusic);
+        musicList.addEventListener('click', showMusicList);
+
+        let audio = new AudioController(...playlist);
+
+        function playMusic(){
+            audio.play();
+
+            this.classList.add('disabled');
+            btnPause.classList.remove('disabled');
+
+        }
+
+        function pauseMusic(){
+            audio.pause();
+
+            this.classList.add('disabled');
+            btnPlay.classList.remove('disabled');
+        }
+
+        function showMusicList(){
+            this.style.height = 100 + '%';
+        }
+
+    </script>
+</body>
+</html>
